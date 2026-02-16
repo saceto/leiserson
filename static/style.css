@@ -1,0 +1,35 @@
+  body {
+      background-color: lightblue;
+
+  }
+
+.video-container{width: 40%; /* Ширина контейнера для формы */
+
+  margin: 0 auto; /* Центрирование по горизонтали */
+  background-color: gold; /* Цвет фона контейнера */
+  padding: 20px;
+  border-radius: 30px; /* Скругленные углы */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Тень */}
+  img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+h1, h2, p {
+  text-align: center;
+}
+table {
+  border: 10px solid black; /* Add solid black border */
+  background: linear-gradient(to bottom, blue 50%, yellow 50%); /* Maintain background gradient */
+  margin: 0 auto; /* Center the table horizontally */
+  padding: 10px; /* Add some padding for aesthetics */
+}
+.form-container {
+  width: 40%; /* Ширина контейнера для формы */
+
+  margin: 0 auto; /* Центрирование по горизонтали */
+  background-color: gold; /* Цвет фона контейнера */
+  padding: 20px;
+  border-radius: 30px; /* Скругленные углы */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Тень */
+}

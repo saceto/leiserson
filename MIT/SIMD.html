@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMD-Like Array Addition Demo</title>
+    <style>
+        body {
+            background-color: red;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            text-align: left;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SIMD-Like Array Addition</h1>
+        <p>Enter two arrays of numbers separated by commas (e.g., 1,2,3,4):</p>
+        <input type="text" id="array1" placeholder="First array (e.g., 1,2,3,4)">
+        <input type="text" id="array2" placeholder="Second array (e.g., 5,6,7,8)">
+        <button onclick="addArrays()">Add Arrays</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function addArrays() {
+            // Get input values
+            const array1Input = document.getElementById('array1').value;
+            const array2Input = document.getElementById('array2').value;
+
+            // Parse inputs into arrays of numbers
+            const array1 = array1Input.split(',').map(num => parseInt(num.trim())).filter(num => !isNaN(num));
+            const array2 = array2Input.split(',').map(num => parseInt(num.trim())).filter(num => !isNaN(num));
+
+            // Validate inputs
+            if (array1.length === 0 || array2.length === 0) {
+                document.getElementById('output').innerText = "Please enter valid numbers in both arrays.";
+                return;
+            }
+            if (array1.length !== array2.length) {
+                document.getElementById('output').innerText = "Arrays must have the same length.";
+                return;
+            }
+
+            // Perform SIMD-like addition using map
+            const steps = [];
+            steps.push(`Array 1: [${array1}]`);
+            steps.push(`Array 2: [${array2}]`);
+            steps.push("Performing SIMD-like addition (processing all elements simultaneously):");
+
+            const result = array1.map((num, index) => {
+                const sum = num + array2[index];
+                steps.push(`Element ${index}: ${num} + ${array2[index]} = ${sum}`);
+                return sum;
+            });
+
+            steps.push(`Result: [${result}]`);
+
+            // Display results
+            document.getElementById('output').innerText = steps.join('\n');
+        }
+    </script>
+</body>
+</html>

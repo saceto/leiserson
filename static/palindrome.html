@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Binary Palindrome Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    .palindrome {
+      background-color: green;
+      color: white;
+    }
+
+    .not-palindrome {
+      background-color: yellow;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Binary Palindrome Checker</h2>
+
+  <input type="text" id="binaryInput" maxlength="8" placeholder="Enter up to 8 bits">
+  <button onclick="checkPalindrome()">Check</button>
+
+  <div id="output" class="result"></div>
+
+  <script>
+    function isBinary(str) {
+      return /^[01]{1,8}$/.test(str);
+    }
+
+    function isPalindrome(str) {
+      return str === str.split('').reverse().join('');
+    }
+
+    function checkPalindrome() {
+      const input = document.getElementById('binaryInput').value.trim();
+      const output = document.getElementById('output');
+
+      if (!isBinary(input)) {
+        output.textContent = "Invalid input. Please enter 1–8 binary digits.";
+        output.className = 'result not-palindrome';
+        return;
+      }
+
+      if (isPalindrome(input)) {
+        output.textContent = `"${input}" is a PALINDROME`;
+        output.className = 'result palindrome';
+      } else {
+        output.textContent = `"${input}" is NOT a palindrome`;
+        output.className = 'result not-palindrome';
+      }
+    }
+  </script>
+
+</body>
+</html>

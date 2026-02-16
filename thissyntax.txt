@@ -1,0 +1,97 @@
+in this syntax: [mat1[0][0] 
+  [mat1[1][0]   how is this read. row 1 column 1 and row 2 column 1?
+
+ChatGPT said:
+Yes, you're mostly right! Let's break down the syntax using this example:
+
+css
+Copy
+Edit
+[mat1[0][0]
+ [mat1[1][0]
+Assuming mat1 is a 2D list (i.e. a matrix), the syntax mat1[row][column] is how you access elements.
+
+So:
+
+mat1[0][0] refers to row 0, column 0 — the first row, first column.
+
+mat1[1][0] refers to row 1, column 0 — the second row, first column.
+
+Thus, you're accessing the first column of the matrix across multiple rows. So if you had:
+
+python
+Copy
+Edit
+mat1 = [
+    [1, 2],
+    [3, 4]
+]
+Then:
+
+mat1[0][0] → 1
+
+mat1[1][0] → 3
+
+So yes, it's reading: row 1, column 1 and row 2, column 1 (if you're using 1-based counting), but in Python (0-based), it's row 0, col 0 and row 1, col 0.
+
+
+
+You said:
+however, the columns are expressed in two arrays which are displayed one line at a time. how does the computer recognize a column value here 
+
+ChatGPT said:
+Great question — and it touches on how data is structured versus how it’s accessed.
+
+In Python, 2D lists (matrices) are stored row by row, like this:
+python
+Copy
+Edit
+mat1 = [
+    [1, 2, 3],   # row 0
+    [4, 5, 6],   # row 1
+    [7, 8, 9]    # row 2
+]
+So internally:
+
+mat1[0] = [1, 2, 3]
+
+mat1[1] = [4, 5, 6]
+
+mat1[2] = [7, 8, 9]
+
+Each of those is a row. Now, when you access mat1[0][1], for example, you're saying:
+
+Go to row 0, then get the element at column 1 → result: 2
+
+So how do you get columns?
+Python doesn’t natively store 2D lists column-wise. To get a column, you have to access the same index from each row.
+
+For example, to get column 0:
+
+python
+Copy
+Edit
+column_0 = [mat1[i][0] for i in range(len(mat1))]
+This collects:
+
+mat1[0][0] = 1
+
+mat1[1][0] = 4
+
+mat1[2][0] = 7
+
+So the computer recognizes a "column" only when you access the same column index across multiple rows.
+
+When you write something like:
+python
+Copy
+Edit
+[mat1[0][0]
+ mat1[1][0]
+ mat1[2][0]]
+You're manually constructing the first column of the matrix by pulling out the first element of each row. Python doesn't "see" this as a column inherently — you're just accessing values across rows with the same column index.
+
+Let me know if you'd like a visual or code demo to clarify!
+
+
+

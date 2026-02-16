@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Multiplication Loop Visualization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .grid-cell {
+            background-color: red;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-2xl font-bold text-center mb-4">Matrix Multiplication Loop Iterations</h1>
+        <div class="overflow-x-auto mb-8">
+            <table id="loopTable" class="border-collapse w-full"></table>
+        </div>
+        <h1 class="text-2xl font-bold text-center mb-4">Result Matrix C</h1>
+        <div class="flex justify-center">
+            <table id="matrixTable" class="border-collapse"></table>
+        </div>
+    </div>
+
+    <script>
+        // Initialize 4x4 matrices
+        const n = 4;
+        const a = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12],
+            [13, 14, 15, 16]
+        ];
+        const b = [
+            [1, 0, 0, 1],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]
+        ];
+        const c = Array(n).fill().map(() => Array(n).fill(0));
+
+        // Store loop iterations
+        const iterations = [];
+
+        // Perform matrix multiplication and collect iteration data
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                let runningSum = 0;
+                for (let k = 0; k < n; k++) {
+                    const product = a[i][k] * b[k][j];
+                    runningSum += product;
+                    iterations.push({
+                        i: i,
+                        j: j,
+                        k: k,
+                        a_ik: a[i][k],
+                        b_kj: b[k][j],
+                        product: product,
+                        runningSum: runningSum
+                    });
+                }
+                c[i][j] = runningSum;
+            }
+        }
+
+        // Display loop iterations table
+        function displayLoopTable() {
+            const table = document.getElementById('loopTable');
+            // Header
+            const headerRow = document.createElement('tr');
+            const headers = ['i', 'j', 'k', 'a[i][k]', 'b[k][j]', 'a[i][k] * b[k][j]', 'Running Sum'];
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.className = 'grid-cell font-bold';
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+            // Data rows
+            iterations.forEach(iter => {
+                const row = document.createElement('tr');
+                const cells = [
+                    iter.i,
+                    iter.j,
+                    iter.k,
+                    iter.a_ik.toFixed(2),
+                    iter.b_kj.toFixed(2),
+                    iter.product.toFixed(2),
+                    iter.runningSum.toFixed(2)
+                ];
+                cells.forEach(cellData => {
+                    const td = document.createElement('td');
+                    td.className = 'grid-cell';
+                    td.textContent = cellData;
+                    row.appendChild(td);
+                });
+                table.appendChild(row);
+            });
+        }
+
+        // Display matrix C
+        function displayMatrix() {
+            const table = document.getElementById('matrixTable');
+            for (let i = 0; i < n; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < n; j++) {
+                    const cell = document.createElement('td');
+                    cell.className = 'grid-cell';
+                    cell.textContent = c[i][j].toFixed(2);
+                    row.appendChild(cell);
+                }
+                table.appendChild(row);
+            }
+        }
+
+        // Render both tables
+        displayLoopTable();
+        displayMatrix();
+    </script>
+</body>
+</html>

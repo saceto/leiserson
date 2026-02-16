@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divide and Conquer: Merge Sort Demo</title>
+    <style>
+        body {
+            background-color: red;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            text-align: left;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Merge Sort: Divide and Conquer</h1>
+        <p>Enter numbers separated by commas (e.g., 5,2,8,1):</p>
+        <input type="text" id="inputArray" placeholder="Enter numbers">
+        <button onclick="sortArray()">Sort</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function mergeSort(arr, steps) {
+            if (arr.length <= 1) {
+                steps.push(`Base case: ${arr}`);
+                return arr;
+            }
+
+            const mid = Math.floor(arr.length / 2);
+            steps.push(`Dividing array ${arr} into left: ${arr.slice(0, mid)} and right: ${arr.slice(mid)}`);
+
+            const left = mergeSort(arr.slice(0, mid), steps);
+            const right = mergeSort(arr.slice(mid), steps);
+
+            return merge(left, right, steps);
+        }
+
+        function merge(left, right, steps) {
+            let result = [];
+            let leftIndex = 0;
+            let rightIndex = 0;
+
+            steps.push(`Merging: left=${left}, right=${right}`);
+
+            while (leftIndex < left.length && rightIndex < right.length) {
+                if (left[leftIndex] <= right[rightIndex]) {
+                    result.push(left[leftIndex]);
+                    leftIndex++;
+                } else {
+                    result.push(right[rightIndex]);
+                    rightIndex++;
+                }
+            }
+
+            result = result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+            steps.push(`Merged result: ${result}`);
+            return result;
+        }
+
+        function sortArray() {
+            const input = document.getElementById('inputArray').value;
+            const arr = input.split(',').map(num => parseInt(num.trim())).filter(num => !isNaN(num));
+            const steps = [];
+
+            if (arr.length === 0) {
+                document.getElementById('output').innerText = "Please enter valid numbers.";
+                return;
+            }
+
+            steps.push(`Initial array: ${arr}`);
+            const sorted = mergeSort(arr, steps);
+            steps.push(`Final sorted array: ${sorted}`);
+
+            document.getElementById('output').innerText = steps.join('\n');
+        }
+    </script>
+</body>
+</html>

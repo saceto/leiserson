@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        .matrix-container {
+            margin: 20px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input {
+            margin: 5px;
+            padding: 5px;
+            width: 60px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .matrix {
+            display: inline-block;
+            margin: 10px;
+            font-family: monospace;
+        }
+        .matrix span {
+            display: inline-block;
+            width: 50px;
+            text-align: right;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Matrix Operations</h2>
+    <div class="matrix-container">
+        <h3>Enter values for Matrix A (2x2)</h3>
+        <input type="number" id="a11" placeholder="a11" required>
+        <input type="number" id="a12" placeholder="a12" required>
+        <br>
+        <input type="number" id="a21" placeholder="a21" required>
+        <input type="number" id="a22" placeholder="a22" required>
+    </div>
+    <button onclick="calculateMatrices()">Calculate</button>
+    <div id="result" class="matrix-container" style="display: none;">
+        <h3>Matrix A</h3>
+        <div id="matrixA" class="matrix"></div>
+        <h3>Matrix B (Random)</h3>
+        <div id="matrixB" class="matrix"></div>
+        <h3>Matrix A + B</h3>
+        <div id="matrixSum" class="matrix"></div>
+        <h3>Matrix C (Random)</h3>
+        <div id="matrixC" class="matrix"></div>
+        <h3>(A + B) × C</h3>
+        <div id="matrixResult" class="matrix"></div>
+    </div>
+
+    <script>
+        function calculateMatrices() {
+            // Get user input for Matrix A
+            const a11 = parseInt(document.getElementById('a11').value);
+            const a12 = parseInt(document.getElementById('a12').value);
+            const a21 = parseInt(document.getElementById('a21').value);
+            const a22 = parseInt(document.getElementById('a22').value);
+
+            if (isNaN(a11) || isNaN(a12) || isNaN(a21) || isNaN(a22)) {
+                alert("Please enter valid numbers for Matrix A.");
+                return;
+            }
+
+            // Initialize matrices
+            let matrixA = [[a11, a12], [a21, a22]];
+            let matrixB = [[0, 0], [0, 0]];
+            let matrixC = [[0, 0], [0, 0]];
+            let matrixSum = [[0, 0], [0, 0]];
+            let matrixResult = [[0, 0], [0, 0]];
+
+            // Generate random values for Matrix B and C (-10 to 10)
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 2; j++) {
+                    matrixB[i][j] = Math.floor(Math.random() * 21) - 10;
+                    matrixC[i][j] = Math.floor(Math.random() * 21) - 10;
+                }
+            }
+
+            // Add Matrix A and B
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 2; j++) {
+                    matrixSum[i][j] = matrixA[i][j] + matrixB[i][j];
+                }
+            }
+
+            // Multiply (A + B) by C
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 2; j++) {
+                    for (let k = 0; k < 2; k++) {
+                        matrixResult[i][j] += matrixSum[i][k] * matrixC[k][j];
+                    }
+                }
+            }
+
+            // Display matrices
+            displayMatrix('matrixA', matrixA);
+            displayMatrix('matrixB', matrixB);
+            displayMatrix('matrixSum', matrixSum);
+            displayMatrix('matrixC', matrixC);
+            displayMatrix('matrixResult', matrixResult);
+
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function displayMatrix(elementId, matrix) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = '';
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 2; j++) {
+                    const span = document.createElement('span');
+                    span.textContent = matrix[i][j];
+                    element.appendChild(span);
+                }
+                element.appendChild(document.createElement('br'));
+            }
+        }
+    </script>
+</body>
+</html>
